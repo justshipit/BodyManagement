@@ -10,7 +10,6 @@
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
-  <scripts name="scripts"/>
   <objects name="objects">
     <object>objects\obj_heart</object>
     <object>objects\obj_alarm_init</object>
