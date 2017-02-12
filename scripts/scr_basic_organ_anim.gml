@@ -12,6 +12,8 @@ if (time != -1) {
 
 if (time <= shakeTime) {
     image_angle = floor(random_range(-5,5));
+} else {
+    image_angle = 0;
 }
 
 draw_self();
