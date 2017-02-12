@@ -85,18 +85,7 @@ if(alarm_get(heartAlarmIndex) == 0) {
             <kind>1</kind>
             <string>/// Adjust size based on time elapsed
 var heartTime = alarm_get(heartAlarmIndex);
-
-if (heartTime != -1) {
-    var scale = min(heartDeathTime / heartTime, 2.0);
-    image_xscale = scale;
-    image_yscale = scale;
-}
-
-if (heartTime &lt;= heartShakeTime) {
-    image_angle = floor(random_range(-5,5));
-}
-
-draw_self();
+script_execute(scr_basic_organ_anim, heartDeathTime, heartTime);
 </string>
           </argument>
         </arguments>
