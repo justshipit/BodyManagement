@@ -10,7 +10,9 @@
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
-  <scripts name="scripts"/>
+  <scripts name="scripts">
+    <script>scripts\scr_basic_organ_anim.gml</script>
+  </scripts>
   <objects name="objects">
     <object>objects\obj_heart</object>
     <object>objects\obj_alarm_init</object>
