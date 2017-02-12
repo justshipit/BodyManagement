@@ -28,7 +28,6 @@
             <string>/// Initialize
 heartAlarmIndex = 0;
 heartDeathTime = 3*room_speed;
-heartShakeTime = 1.5*room_speed;
 state = "alive";
 
 show_debug_message("Heart created.");
