@@ -5,7 +5,7 @@ var time = argument[1];
 var shakeTime = deathTime / 2;
 
 if (time != -1) {
-    var scale = min(deathTime / time, 2.0);
+    var scale = min(deathTime / time, 1.5);
     image_xscale = scale;
     image_yscale = scale;
 }
