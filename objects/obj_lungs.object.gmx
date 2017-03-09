@@ -28,7 +28,7 @@
             <string>/// Initialize
 lungsAlarmIndex = 0;
 
-lungsDeflateDuration = 10*room_speed;
+lungsDeflateDuration = 5*room_speed;
 lungsDeflateShakeDuration = 2*room_speed;
 lungsInflateDuration = 2*room_speed;
 lungsInflateShakeDuration = 2*room_speed;
@@ -37,7 +37,7 @@ maxScale = 1.5;
 minScale = 0.7;
 
 // possible states: inflating, deflating, dead
-state = "inflating";
+state = "deflating";
 
 show_debug_message("Lungs created.");
 
