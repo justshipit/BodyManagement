@@ -27,12 +27,21 @@
             <kind>1</kind>
             <string>/// Initialize
 lungsAlarmIndex = 0;
-lungsDeathTime = 10*room_speed;
-state = "alive";
+
+lungsDeflateDuration = 10*room_speed;
+lungsDeflateShakeDuration = 2*room_speed;
+lungsInflateDuration = 2*room_speed;
+lungsInflateShakeDuration = 2*room_speed;
+
+maxScale = 1.5;
+minScale = 0.7;
+
+// possible states: inflating, deflating, dead
+state = "inflating";
 
 show_debug_message("Lungs created.");
 
-alarm_set(lungsAlarmIndex, lungsDeathTime);
+alarm_set(lungsAlarmIndex, lungsInflateDuration + lungsInflateShakeDuration);
 </string>
           </argument>
         </arguments>
@@ -57,8 +66,38 @@ alarm_set(lungsAlarmIndex, lungsDeathTime);
             <kind>1</kind>
             <string>/// Check if lungs should die
 if(alarm_get(lungsAlarmIndex) == 0) {
+    state = "dead";
     alarm_set(lungsAlarmIndex, -1);
     show_debug_message("Lungs are dead!");
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="6" enumb="56">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Reset lungs alarm
+if(state != "dead") {
+    state = "deflating";
+    
+    var deflateTime = lungsDeflateDuration * (image_xscale - minScale) / (maxScale - minScale);
+    alarm_set(lungsAlarmIndex, deflateTime + lungsDeflateShakeDuration);
 }
 </string>
           </argument>
@@ -83,8 +122,12 @@ if(alarm_get(lungsAlarmIndex) == 0) {
           <argument>
             <kind>1</kind>
             <string>/// Reset lungs alarm
-if (state == "alive") {
-    alarm_set(lungsAlarmIndex, lungsDeathTime);
+
+if(state != "dead") {
+    state = "inflating";
+    
+    var inflateTime = lungsInflateDuration * (1 - (image_xscale - minScale) / (maxScale - minScale));
+    alarm_set(lungsAlarmIndex, inflateTime + lungsInflateShakeDuration);
 }
 </string>
           </argument>
@@ -110,7 +153,35 @@ if (state == "alive") {
             <kind>1</kind>
             <string>/// Adjust size based on time elapsed
 var lungsTime = alarm_get(lungsAlarmIndex);
-script_execute(scr_basic_organ_anim, lungsDeathTime, lungsTime);
+var newScale = 1.0;
+var shake = false;
+
+switch(state) {
+
+    case "inflating":
+        var inflateRemaining = max(lungsTime - lungsInflateShakeDuration, 0);
+        var percentInflated = inflateRemaining / lungsInflateDuration;
+        var newScale = minScale + (1-percentInflated) * (maxScale - minScale);
+        shake = inflateRemaining == 0;
+        break;
+        
+    case "deflating":
+        var deflateRemaining = max(lungsTime - lungsDeflateShakeDuration, 0);
+        var percentInflated = deflateRemaining / lungsDeflateDuration;
+        var newScale = minScale + percentInflated * (maxScale - minScale);
+        shake = deflateRemaining == 0;
+        break;
+}
+
+image_angle = 0;
+image_xscale = newScale;
+image_yscale = newScale;
+
+if(shake) {
+    image_angle = floor(random_range(-5,5));
+}
+
+draw_self();
 </string>
           </argument>
         </arguments>
