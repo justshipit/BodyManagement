@@ -10,9 +10,12 @@ if (time != -1) {
     image_yscale = scale;
 }
 
+
 if (time <= shakeTime) {
+    image_index = 1;
     image_angle = floor(random_range(-5,5));
 } else {
+    image_index = 0;
     image_angle = 0;
 }
 

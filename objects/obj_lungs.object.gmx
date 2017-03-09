@@ -26,6 +26,8 @@
           <argument>
             <kind>1</kind>
             <string>/// Initialize
+image_speed = 0;
+
 lungsAlarmIndex = 0;
 
 lungsDeflateDuration = 5*room_speed;
@@ -174,10 +176,12 @@ switch(state) {
 }
 
 image_angle = 0;
+image_index = 0;
 image_xscale = newScale;
 image_yscale = newScale;
 
 if(shake) {
+    image_index = 1;
     image_angle = floor(random_range(-5,5));
 }
 
